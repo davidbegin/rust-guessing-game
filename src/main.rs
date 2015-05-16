@@ -17,17 +17,23 @@ fn main() {
             .ok()
             .expect("Failed to read input");
 
-        let guess: u32 = guess.trim().parse()
-            .ok()
-            .expect("Failed to convert");
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("\ntry a number. no funny business\n");
+                continue
+            },
+        };
 
         println!("Woah I have the guess! {}", guess);
 
-
         match guess.cmp(&secret_number) {
             Ordering::Less => println!("too small!"),
-            Ordering::Equal => println!("You win!"),
-            Ordering::Greater => println!("Too Big")
+            Ordering::Greater => println!("Too Big"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            }
         }
 
     }
